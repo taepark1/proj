@@ -1,0 +1,5 @@
+train: /home/taepark/goinfre/proj/json/YOLODataset/images/train/
+val: /home/taepark/goinfre/proj/json/YOLODataset/images/val/
+test: /home/taepark/goinfre/proj/json/YOLODataset/images/test/
+nc: 2
+names: ["hand", "tae"]

@@ -154,11 +154,15 @@ class Ui_Dialog(object):
         self.show_answer = QCheckBox(Dialog)
         self.show_answer.setObjectName(u"show_answer")
         self.show_answer.setGeometry(QRect(20, 310, 71, 20))
-        self.show_answer.setChecked(False)  # 프로그램 시작 시 체크박스를 체크된 상태로 설정
+        self.show_answer.setChecked(True)  # 프로그램 시작 시 체크박스를 체크된 상태로 설정
         png1 = "person"
+        #self.image_names = ["1", "2", "3", "4", "5"]
         self.show_answer.stateChanged.connect(partial(self.onCheckboxStateChanged, png = png1))
-
-
+        checked = self.show_answer.isChecked()
+        print("체크박스 상태:", "Checked" if checked else "Unchecked")
+        print("상태체크===== :::", checked)
+        #self.show_answer.setChecked(True)
+        #print("상태체크 on", checked)
         # 정답/오답 표시 라벨
         self.o_x_o = QLabel(Dialog)
         self.o_x_o.setObjectName(u"o_x_o")
@@ -204,6 +208,9 @@ class Ui_Dialog(object):
         
     def onCheckboxStateChanged(self, state,png):
         print(f"State changed to: {state}")
+        current_pixmap = self.answer_carasel.pixmap()
+
+        print("시작전 -------- : ", current_pixmap)
         if state == 2:
             print("확인됨")
             #pixmap1 = QPixmap("C:\\git\\main\\proj\\proj\\person.png")
@@ -211,6 +218,10 @@ class Ui_Dialog(object):
             image_path = base_image_path.format(png)  # 경로에서 숫자 부분을 i로 치환
             print(image_path) 
             pixmap1 = QPixmap(image_path)
+
+            
+
+            print("state == 2 :값이 뭐임? : ", current_pixmap)
             if pixmap1.isNull():
                 print("이미지 로드 실패")
             else:
@@ -218,7 +229,9 @@ class Ui_Dialog(object):
                 print("이미지 로드 성공")            
         else:
             print("----")   
+            print("state == 0 :값이 뭐임? : ", current_pixmap)
             self.answer_carasel.setPixmap(QPixmap()) 
+            print("^^^^^^초기화 후에 값은?? : ", current_pixmap)
     # setupUi
 
     def retranslateUi(self, Dialog):

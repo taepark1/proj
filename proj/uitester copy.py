@@ -14,8 +14,9 @@ import argparse
 from queue import Queue
 import time
 import random
-from ultralytics.utils.plotting import Annotator  # ultralytics.yolo.utils.plotting is deprecated
+from ultralytics.utils.plotting import Annotator, Colors  # ultralytics.yolo.utils.plotting is deprecated
 from threading import Thread, enumerate
+from collections import OrderedDict
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
@@ -71,7 +72,7 @@ class Ui_Dialog(object):
         self.image_names = ["person", "start", "o", "phone", "prog"]
         self.problem_names = ["사람>>>???", "시작", "동그라미", "휴대폰", "바"]
         self.image_names_index = 0
-
+        self.base_image_path = "C:\\git\\main\\proj\\proj\\{}.png"
 
         # 답변 표시를 위한 프레임 설정
         self.answer_frame = QFrame(Dialog)
@@ -166,7 +167,7 @@ class Ui_Dialog(object):
         self.show_answer.stateChanged.connect(self.onCheckboxStateChanged)
 
 
-        # 정답/오답 표시 라벨
+        # 정답/오답 표시 라벨   
         self.o_x_o = QLabel(Dialog)
         self.o_x_o.setObjectName(u"o_x_o")
         self.o_x_o.setGeometry(QRect(290, 310, 21, 41))
@@ -213,7 +214,7 @@ class Ui_Dialog(object):
 
         Thread(target=video_capture, args=(cap, frame_queue, darknet_image_queue)).start()
         Thread(target=inference, args=(cap, args, darknet_image_queue, detections_queue, fps_queue)).start()
-        #Thread(target=drawing, args=(cap, self, args, frame_queue, detections_queue, fps_queue)).start()
+        Thread(target=drawing, args=(cap, self, args, frame_queue, detections_queue, fps_queue)).start()
     def nextImage(self):
     # 인덱스 업데이트
         self.image_names_index = (self.image_names_index + 1) % len(self.image_names)
@@ -240,9 +241,9 @@ class Ui_Dialog(object):
         if state == 2:
             print("확인됨")
             #pixmap1 = QPixmap("C:\\git\\main\\proj\\proj\\person.png")
-            base_image_path = "C:\\git\\main\\proj\\proj\\{}.png"
+            #base_image_path = "C:\\git\\main\\proj\\proj\\{}.png"
             print(self.image_names[self.image_names_index])
-            image_path = base_image_path.format(self.image_names[self.image_names_index])  # 경로에서 숫자 부분을 i로 치환
+            image_path = self.base_image_path.format(self.image_names[self.image_names_index])  # 경로에서 숫자 부분을 i로 치환
             print(image_path) 
             pixmap1 = QPixmap(image_path)
             if pixmap1.isNull():
@@ -318,19 +319,63 @@ def drawing(cap, window, args, frame_queue, detections_queue, fps_queue):
         frame_resized = frame_queue.get()
         detections = detections_queue.get()
         fps = fps_queue.get()
-
+#논리
         if frame_resized is not None:
-            for r in detections:
+            for r in detections: #detections 에서 boxes찾기
 
                 annotator = Annotator(frame_resized)
 
                 boxes = r.boxes
-                for box in boxes:
+                for box in boxes: #boxes에서 cls찾기
 
                     b = box.xyxy[0]
                     c = box.cls
                     label = model.names[int(c)]
-                    annotator.box_label(b, one.get(label))
+                    annotator.box_label(b, one.get(label),color=(0, 255, 0), txt_color=(0, 0, 0))
+                    print("annotator 이후")
+                    if result != "":
+                        before_result = result
+                    if label != "":
+                        result = label
+                        print("result 비어있는지 확인하기")
+                        
+                        #다르면 저장
+                        if(before_result != result and result not in list(one.keys())):
+                            if(not result_que.full()):
+                                result_que.put(result)
+                                print("result_que 가득차지 않았음")
+                                print("queue  저장 성공")
+                            else:
+                                result_que.get()
+                                result_que.put(result)
+                                print("result_que 가득찼음, 지우고 넣음")
+                                print("queue  저장 성공")
+                        
+                        #키 1개인 경우
+                        if label in list(one.keys()):
+                            print(window.image_names[window.image_names_index])
+                            image_path = window.base_image_path.format(window.image_names[window.image_names_index])  # 경로에서 숫자 부분을 i로 치환
+                            print(image_path) 
+                            pixmap1 = QPixmap(image_path)
+
+                            current_pixmap = window.answer_carasel.pixmap() 
+                            print( "값이있음? : ", current_pixmap) 
+                            if current_pixmap is None or current_pixmap.isNull() or current_pixmap.size().isEmpty():
+                                if pixmap1.isNull():
+                                    print("이미지 경로오류 : 로드해야함")
+                                    #window.answer_carasel.setPixmap(pixmap1)
+                                else:
+                                    window.answer_carasel.setPixmap(pixmap1)
+                                    print("이미 이미지 로드 되어있음") 
+                            else:
+                                    #window.answer_carasel.setPixmap(pixmap1)
+                                print("이미 이미지 로드 되어있음") 
+                            break
+                            #정답 보여주고 o표시
+#-------------------------------------------------------------
+            
+            
+            #출력단
             risized_hand_image = cv2.resize(annotator.result(), (371, 261), interpolation=cv2.INTER_AREA)
             #hand_image = annotator.result()
             hand_image = risized_hand_image#annotator.result()

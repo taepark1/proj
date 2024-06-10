@@ -38,7 +38,7 @@ model = YOLO('/home/taepark/goinfre/runs/detect/train7/weights/best.pt')
 
 
 one = {'1person':'person output', 'cell phone':'cell phone out put', 'book':'book output'}
-continuous = {'만나다':["cell phone","book"]}
+continuous = {'만나다':["meet1","meet2"]}
 
 list_of_key = list(continuous.keys())
 list_of_value = list(continuous.values())
@@ -74,10 +74,10 @@ class Ui_Dialog(object):
 
         self.image_names = ["person", "start", "o", "phone", "prog"]
         self.problem_names = ["사람>>>???", "시작", "동그라미", "휴대폰", "바"]
-        self.weight_names = ["meet", "house", "book", "respect", "ob"]
+        self.weight_names = ["best", "house", "book", "respect", "ob"]
         self.image_names_index = 0
         self.base_image_path = "/home/taepark/goinfre/git/proj/proj/{}.png" #수정필요
-        self.base_weight_path = "C:\\git\\main\\proj\\proj\\{}.pt" #수정필요
+        self.base_weight_path = "/home/taepark/goinfre/runs/detect/train7/weights/{}.pt" #수정필요
         self.show_index = 0
 
 
@@ -140,7 +140,7 @@ class Ui_Dialog(object):
         self.progress_bar = QProgressBar(Dialog)
         self.progress_bar.setObjectName(u"progress_bar")
         self.progress_bar.setGeometry(QRect(30, 410, 321, 23))
-        self.progress_bar.setValue(24)  # 초기 값 설정
+        self.progress_bar.setValue(0)  # 초기 값 설정
 
         # 문제 텍스트를 표시하는 프레임
         # 해결
@@ -350,6 +350,15 @@ def drawing(cap, window, args, frame_queue, detections_queue, fps_queue):
 
                     b = box.xyxy[0]
                     c = box.cls
+                    d = box.conf
+                    print("###################################")
+                    print(model.names[int(c)])
+                    print(d)
+                    output1 = d.item()
+                    print(output1)
+                    print("###################################")
+                    
+                    #window.progress_bar.setValue(output1*100)
                     label = model.names[int(c)]
                     #annotator.box_label(b, one.get(label),color=(0, 255, 0), txt_color=(0, 0, 0))
                     print("annotator 이후")

@@ -1,0 +1,5 @@
+train: /home/taepark/goinfre/drive-download-20240610T053928Z-001/data/YOLODataset/images/train/
+val: /home/taepark/goinfre/drive-download-20240610T053928Z-001/data/YOLODataset/images/val/
+test: /home/taepark/goinfre/drive-download-20240610T053928Z-001/data/YOLODataset/images/test/
+nc: 2
+names: ["book_1", "book_2"]

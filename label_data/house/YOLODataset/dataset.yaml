@@ -1,0 +1,5 @@
+train: /home/taepark/goinfre/git/proj/label_data/house/YOLODataset/images/train/
+val: /home/taepark/goinfre/git/proj/label_data/house/YOLODataset/images/val/
+test: /home/taepark/goinfre/git/proj/label_data/house/YOLODataset/images/test/
+nc: 1
+names: ["house_1"]

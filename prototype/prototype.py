@@ -31,14 +31,17 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QFrame,
 import sys  # 시스템 특정 파라미터와 함수를 작업하기 위해 필요
 
 #model = YOLO('/home/taepark/goinfre/asdf.v1i.yolov8/runs/detect/train/weights/best.pt')
-model = YOLO('/home/taepark/goinfre/runs/detect/train7/weights/best.pt')
+model = YOLO('./train/house/best.pt')
 #video_path = "/h`ome/taepark/goinfre/proj/123111.mp4"
 #cap = cv2.VideoCapture(video_path)
 #cap = cv2.VideoCapture(0)
 
 
 one = {'1person':'person output', 'cell phone':'cell phone out put', 'book':'book output'}
-continuous = {'만나다':["cell phone","book"]}
+continuous = {
+    '집':["house_1"],
+    '책':["book_1", "book_2"]
+}
 
 list_of_key = list(continuous.keys())
 list_of_value = list(continuous.values())
@@ -72,12 +75,12 @@ class Ui_Dialog(object):
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(802, 500)  # 대화 상자 크기 설정
 
-        self.image_names = ["person", "start", "o", "phone", "prog"]
-        self.problem_names = ["사람>>>???", "시작", "동그라미", "휴대폰", "바"]
-        self.weight_names = ["meet", "house", "book", "respect", "ob"]
+        self.image_names = ["book", "house"]
+        self.problem_names = ["책", "집"]
+        self.weight_names = ["book", "house"]
         self.image_names_index = 0
-        self.base_image_path = "/home/taepark/goinfre/git/proj/proj/{}.png" #수정필요
-        self.base_weight_path = "C:\\git\\main\\proj\\proj\\{}.pt" #수정필요
+        self.base_image_path = "./image/book/{}.png" #수정필요
+        self.base_weight_path = "./train/house/best.pt"
         self.show_index = 0
 
 

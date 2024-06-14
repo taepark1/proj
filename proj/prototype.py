@@ -74,7 +74,7 @@ class Ui_Dialog(object):
 
         self.image_names = ["person", "start", "o", "phone", "prog"]
         self.problem_names = ["사람>>>???", "시작", "동그라미", "휴대폰", "바"]
-        self.weight_names = ["meet", "house", "book", "respect", "ob"]
+        self.weight_names = ["meet", "house", "book", "regard", "ob"]
         self.image_names_index = 0
         self.base_image_path = "/home/taepark/goinfre/git/proj/proj/{}.png" #수정필요
         self.base_weight_path = "C:\\git\\main\\proj\\proj\\{}.pt" #수정필요

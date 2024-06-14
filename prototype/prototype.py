@@ -38,14 +38,18 @@ model = YOLO('./train/book/best.pt')
 
 
 one = {
-    'book':'book output',
-    'house':'house output',
-    'respect':'respect output'
+    'book_1':'book output',
+    'house_1':'house output',
+    'regard_1':'regard output',
+    'ob_1':'ob output',
+    'meet_1':'meet output'
 }
 continuous = {
     '집':["house_1"],
     '책':["book_1", "book_2"],
-    '존경':["respect_1"]
+    '존경':["regard_1"],
+    '맥주':["ob_1"],
+    '만나다':["meet_1", "meet_2"]
 }
 
 list_of_key = list(continuous.keys())
@@ -80,9 +84,9 @@ class Ui_Dialog(object):
             Dialog.setObjectName(u"Dialog")
         Dialog.resize(802, 500)  # 대화 상자 크기 설정
 
-        self.image_names = ["book", "house", "respect"]
-        self.problem_names = ["책", "집", "존경"]
-        self.weight_names = ["book", "house", "respect"]
+        self.image_names = ["book", "house", "regard", "ob", "meet"]
+        self.problem_names = ["책", "집", "존경", "맥주", "만나다"]
+        self.weight_names = ["book", "house", "regard", "ob", "meet"]
         self.image_names_index = 0
         self.base_image_path = "./image/book/{}.png" #수정필요
         self.base_weight_path = "./train/book/best.pt"
@@ -400,7 +404,7 @@ def drawing(cap, window, args, frame_queue, detections_queue, fps_queue):
 
 
 
-
+                        print(label)
                         #키 1개인 경우
                         if label in list(one.keys()):
                             annotator.box_label(b, one.get(label),color=(0, 255, 0), txt_color=(0, 0, 0))

@@ -43,17 +43,17 @@ model = YOLO(path)
 
 
 one = {
-    'book_1':'book output',
+#    'book_1':'book output',
     'house_1':'house output',
     'regard_1':'regard output',
-    'ob_1':'ob output',
-    'meet_1':'meet output'
+#    'ob_1':'ob output',
+#    'meet_1':'meet output'
 }
 continuous = {
-    '집':["house_1"],
+#    '집':["house_1"],
     '책':["book_1", "book_2"],
-    '존경':["regard_1"],
-    '맥주':["ob_1"],
+#    '존경':["regard_1"],
+    '맥주':["ob_1", "ob_2"],
     '만나다':["meet_1", "meet_2"]
 }
 
@@ -97,7 +97,7 @@ class Ui_Dialog(object):
         self.weight_names = ["book", "house", "regard", "ob", "meet"]
         self.image_names_index = 0
         self.show_index = 0
-        self.base_image_path = os.path.join(".", "image", "book", "{}.png")
+        self.base_image_path = os.path.join(".", "image", "{}", "{}.png")
         # 모델 가중치 경로 설정
         self.base_weight_path = os.path.join(".", "train", "book", "best.pt")
 
@@ -300,6 +300,9 @@ class Ui_Dialog(object):
         key = self.image_names[self.image_names_index]
         script_dir = os.path.dirname(os.path.abspath(__file__))
         file_path = os.path.join(script_dir, 'train', key, 'best.pt')
+        print('--------------------------------')
+        print(file_path)
+        print('--------------------------------')
         global model
         model = YOLO(file_path)
         print(f"Model updated to {file_path}")
@@ -312,7 +315,7 @@ class Ui_Dialog(object):
             #pixmap1 = QPixmap("C:\\git\\main\\proj\\proj\\person.png")
             #base_image_path = "C:\\git\\main\\proj\\proj\\{}.png"
             print(self.image_names[self.image_names_index])
-            image_path = self.base_image_path.format(self.image_names[self.image_names_index])  # 경로에서 숫자 부분을 i로 치환
+            image_path = self.base_image_path.format(self.image_names[self.image_names_index],self.image_names[self.image_names_index])  # 경로에서 숫자 부분을 i로 치환
             print(image_path) 
             pixmap1 = QPixmap(image_path)
             if pixmap1.isNull():
@@ -408,8 +411,17 @@ def drawing(cap, window, args, frame_queue, detections_queue, fps_queue):
 
                     b = box.xyxy[0]
                     c = box.cls
+                    d = box.conf
+                    annotator.box_label(b, one.get(label),color=(0, 255, 0), txt_color=(0, 0, 0)) ##탐지확인
+                    print("###################################")
+                    print(model.names[int(c)])
+                    print(d)
+                    output1 = d.item()
+                    print(output1)
+                    print("###################################")
+                    if (output1 < 0.5) :
+                        break
                     label = model.names[int(c)]
-                    #annotator.box_label(b, one.get(label),color=(0, 255, 0), txt_color=(0, 0, 0))
                     print("annotator 이후")
                     if result != "":
                         before_result = result
@@ -449,7 +461,7 @@ def drawing(cap, window, args, frame_queue, detections_queue, fps_queue):
                             annotator.box_label(b, one.get(label),color=(0, 255, 0), txt_color=(0, 0, 0))
                             if window.show_index == 0:#current_pixmap is None or current_pixmap.isNull() or current_pixmap.size().isEmpty():
                                 print(window.image_names[window.image_names_index])
-                                image_path = window.base_image_path.format(window.image_names[window.image_names_index])  # 경로에서 숫자 부분을 i로 치환
+                                image_path = window.base_image_path.format(window.image_names[window.image_names_index],window.image_names[window.image_names_index])  # 경로에서 숫자 부분을 i로 치환
                                 print(image_path) 
                                 pixmap1 = QPixmap(image_path)
                                 print("이미지 인덱스는 뭐임?",window.show_index)
@@ -484,10 +496,11 @@ def drawing(cap, window, args, frame_queue, detections_queue, fps_queue):
                             #break 
                                 if window.show_index == 0:#current_pixmap is None or current_pixmap.isNull() or current_pixmap.size().isEmpty():
                                     print(window.image_names[window.image_names_index])
-                                    image_path = window.base_image_path.format(window.image_names[window.image_names_index])  # 경로에서 숫자 부분을 i로 치환
+                                    image_path = window.base_image_path.format(window.image_names[window.image_names_index],window.image_names[window.image_names_index])  # 경로에서 숫자 부분을 i로 치환
                                     print(image_path) 
                                     pixmap1 = QPixmap(image_path)
                                     print("이미지 인덱스는 뭐임?",window.show_index)
+                                    
                                     #current_pixmap = window.answer_carasel.pixmap() 
                                     #print( "값이있음? : ", current_pixmap) 
                                     if pixmap1.isNull():

@@ -3,7 +3,7 @@ import cv2
 from ultralytics import YOLO
 
 # YOLOv8 모델 로드
-model = YOLO('/home/taepark/goinfre/runs/detect/train7/weights/best.pt')
+model = YOLO('C:\\git\\main\\proj\\prototype\\train\\meet\\best.pt')
 
 # 비디오 파일 경로
 #video_path = "/home/taepark/goinfre/New_sample/data/REAL/WORD/01/NIA_SL_WORD1501_REAL01_L.mp4"

@@ -2,10 +2,10 @@ import cv2
 from ultralytics import YOLO
 import sys
 from os import system
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5 import uic
+#from PyQt5.QtWidgets import *
+#from PyQt5.QtCore import *
+#from PyQt5.QtGui import *
+#from PyQt5 import uic
 import cv2
 import argparse
 from queue import Queue
@@ -15,12 +15,12 @@ from queue import Queue
 #model = YOLO('yolov8n.pt')
 
 #model = YOLO('/home/taepark/goinfre/proj/yolov8/runs/detect/train2/weights/best.pt')
-model = YOLO('/home/taepark/goinfre/asdf.v1i.yolov8/runs/detect/train/weights/best.pt')
+model = YOLO('C:\\git\\main\\proj\\prototype\\train\\house\\best.pt')
 
 # 동영상 파일 사용시
-video_path = "/home/taepark/goinfre/New_sample/data/REAL/WORD/01/NIA_SL_WORD1501_REAL01_D.mp4"
+#video_path = "/home/taepark/goinfre/New_sample/data/REAL/WORD/01/NIA_SL_WORD1501_REAL01_D.mp4"
 #video_path = "/home/taepark/goinfre/proj/123111.mp4"
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture(0)
 
 # webcam 사용시
 #cap = cv2.VideoCapture(0)

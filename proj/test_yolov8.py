@@ -15,7 +15,7 @@ from queue import Queue
 #model = YOLO('yolov8n.pt')
 
 #model = YOLO('/home/taepark/goinfre/proj/yolov8/runs/detect/train2/weights/best.pt')
-model = YOLO('C:\\git\\main\\proj\\prototype\\train\\house\\best.pt')
+model = YOLO('/home/woonhan/goinfre/proj/label_data/regard/train5/weights/best.pt')
 
 # 동영상 파일 사용시
 #video_path = "/home/taepark/goinfre/New_sample/data/REAL/WORD/01/NIA_SL_WORD1501_REAL01_D.mp4"

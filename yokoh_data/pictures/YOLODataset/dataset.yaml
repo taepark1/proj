@@ -1,0 +1,5 @@
+train: /home/yokoh/goinfre/proj/ob_daters/pictures/YOLODataset/images/train/
+val: /home/yokoh/goinfre/proj/ob_daters/pictures/YOLODataset/images/val/
+test: /home/yokoh/goinfre/proj/ob_daters/pictures/YOLODataset/images/test/
+nc: 2
+names: ["ob_2", "ob_1"]

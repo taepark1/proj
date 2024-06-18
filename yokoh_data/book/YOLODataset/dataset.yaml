@@ -1,0 +1,5 @@
+train: /home/yokoh/goinfre/proj/label_data/book/YOLODataset/images/train/
+val: /home/yokoh/goinfre/proj/label_data/book/YOLODataset/images/val/
+test: /home/yokoh/goinfre/proj/label_data/book/YOLODataset/images/test/
+nc: 2
+names: ["book_2", "book_1"]

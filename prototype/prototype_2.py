@@ -204,7 +204,7 @@ class Ui_Dialog(object):
         self.problem_word.setGeometry(QRect(0, 20, 351, 61))
         font_problem_word = QFont()
         font_problem_word.setFamily("SBAggro Bold")
-        custom_font.setPointSize(45)
+        custom_font.setPointSize(30)
         self.problem_word.setFont(custom_font)
 
         self.problem_word.setText(self.problem_names[self.image_names_index])#원하는 문자 text출력
